@@ -1,0 +1,16 @@
+Aihe: 	Arcade-peli
+	Tarkoituksena "kopata" pelikent‰n yl‰reunasta putoavia kaloja
+	pelikent‰n alareunassa uivalla hylkeell‰. V‰lill‰ yl‰reunasta voisi
+	pudota kivi‰, jotka pit‰isi v‰ist‰‰. Mietinn‰ss‰ viel‰, tippuvatko
+	kalat ja kivet randomisti vai joissakin ennaltam‰‰r‰tyiss‰ kuvioissa,
+	jotka voisivat kuitenkin vaihdella randomisti. Peli p‰‰ttyy, jos kala 		ehtii tipahtaa veteen tai kivi putoaa hylkeen p‰‰lle.
+
+K‰ytt‰j‰t: Pelaaja
+
+Pelaajan toiminnot:
+	- Pelin aloittaminen ja sulkeminen valikossa
+	- Mahdollisesti vaikeustason/kent‰n valinta
+	- Pelin aikana hylkeell‰ liikkuminen vasemmalle ja oikealle sek‰
+	  mahdollisesti "‰‰nn‰hdys", joka h‰vitt‰isi kaikki sill‰ hetkell‰
+	  ilmassa putoavat objektit. ƒ‰nn‰hdyst‰ tarvittaisiin, jos kala olisi	
+	  putoamassa veteen eik‰ sit‰ ehtisi mitenk‰‰n napata.
