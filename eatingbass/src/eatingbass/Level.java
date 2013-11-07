@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 public class Level {
 
-    private Player player = new Player(4);
+    private Player player = new Player();
     private boolean gameRunning = true;
     String[] level1 = {".........",
         ".........",

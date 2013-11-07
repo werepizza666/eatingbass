@@ -5,7 +5,7 @@ public class Player {
     private int x;
     private int y;
 
-    public Player(int x) {
+    public Player() {
         this.x = 4;
         this.y = 8;
     }
