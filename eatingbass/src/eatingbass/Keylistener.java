@@ -21,6 +21,7 @@ public class Keylistener implements KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
         }
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {}
     }
 
     @Override

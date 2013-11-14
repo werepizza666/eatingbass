@@ -19,6 +19,12 @@ public class Player {
     }
 
     public void move(int dx) {
+        if (dx < 0 && this.x == 0) {
+            return;
+        }
+        if (dx > 0 && this.x == 8) {
+            return;
+        }
         this.x = this.x + dx;
     }
 }

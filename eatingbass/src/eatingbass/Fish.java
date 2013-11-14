@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package eatingbass;
 
-public class Fish {
+public class Fish{
     private int x;
     private int y;
     
@@ -16,4 +13,11 @@ public class Fish {
         this.y += 1;
     }
     
+    public int getX() {
+        return this.x;
+    }
+    
+    public int getY() {
+        return this.y;
+    }   
 }

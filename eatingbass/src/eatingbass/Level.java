@@ -1,12 +1,19 @@
 package eatingbass;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class Level {
 
     private Player player = new Player();
-    private boolean gameRunning = true;
+    private List<Fish> fishList = new ArrayList<Fish>();
+    private boolean gameRunning;
+    private int score;
+    private int timeSinceLastFish;
+    private int timeSinceMassDestruction;
     String[] level1 = {".........",
         ".........",
         ".........",
@@ -18,56 +25,162 @@ public class Level {
         "........."};
 
     public void run() {
-        Scanner scanner = new Scanner(System.in);
-        String input;
-        while (true) {
+//        Scanner scanner = new Scanner(System.in);
+//        String input;
+        this.gameRunning = true;
+        this.timeSinceLastFish = 0;
+        this.timeSinceMassDestruction = 0;
+        this.score = 0;
+        newFish();
+        while (gameRunning) {
             this.draw();
-            System.out.println("liiku vasemmalle tai oikealle (v/o):");
-            input = scanner.nextLine();
-            move(input);
-//           try {
-//                Thread.sleep(250);
-//            } catch (InterruptedException ex) {
-//                Logger.getLogger(Level.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//            }
+//            System.out.println("liiku vasemmalle, oikealle tai pysy paikallaan(v/o/p):");
+//            input = scanner.nextLine();
+            updateGame();
+
+            try {
+                Thread.sleep(400);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Level.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
         }
     }
 
     public void draw() {
-        
-        System.out.println("_________");
+        System.out.println("_________basses eaten:" + this.score);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (j == player.getX() && i == player.getY()) {
                     System.out.print("P");
+                } else if (!checkForFish(j, i)) {
+                    System.out.print(level1[i].charAt(j));
                 } else {
-                System.out.print(level1[i].charAt(j));
+                    System.out.print("F");
                 }
+
             }
             System.out.println("");
         }
+
     }
 
     public void quit() {
         this.gameRunning = false;
     }
-    
-    public void move(String input) {
-        int dx;
-        if (input.equals("v")) {
-            if (player.getX() == 0) {
-                return;
-            } 
-            dx = -1;
-            this.player.move(dx);
+
+    public void updateGame() {
+
+
+        if (whereToMove() < 0) {
+            player.move(-1);
         }
-        if (input.equals("o")) {
-            if (player.getX() == 8) {
-                return;
+        if (whereToMove() > 0) {
+            player.move(1);
+        }
+        for (Fish f : fishList) {
+            f.fall();
+        }
+        checkIfFishIsEaten();
+        if (checkIfFishHitTheGround()) {
+            quit();
+        }
+        timeSinceMassDestruction++;
+        if (timeSinceMassDestruction == 28) {
+            massDestruction();
+        }
+        timeSinceLastFish++;
+        if (timeSinceLastFish == 5 || timeSinceMassDestruction == 0) {
+            newFish();
+
+        }
+    }
+
+    public boolean checkIfFishIsEaten() {
+        for (Fish f : fishList) {
+            if (this.player.getX() == f.getX()) {
+                if (this.player.getY() == f.getY()) {
+                    this.score += 1;
+                    fishList.remove(f);
+                    return true;
+                }
             }
-        
-            dx = 1;
-            this.player.move(dx);
+        }
+        return false;
+    }
+
+    public void newFish() {
+        Random random = new Random();
+        fishList.add(new Fish(random.nextInt(8)));
+        if (fishList.size() >= 2) {
+            while (!isPreviousFishCloseEnough(fishList.get(fishList.size() - 2), fishList.get(fishList.size() - 1))) {
+                fishList.remove(fishList.get(fishList.size() - 1));
+                fishList.add(new Fish(random.nextInt(8)));
+            }
+        }
+        this.timeSinceLastFish = 0;
+
+    }
+
+    public boolean isPreviousFishCloseEnough(Fish previousFish, Fish newFish) {
+        double distance;
+        if (previousFish.getX() < newFish.getX()) {
+            distance = ((double) (newFish.getX() - previousFish.getX()) / (double) (previousFish.getY() - newFish.getY()));
+        } else if (newFish.getX() < previousFish.getX()) {
+            distance = ((double) (previousFish.getX() - newFish.getX()) / (double) (previousFish.getY() - newFish.getY()));
+        } else {
+            return true;
+        }
+        if (distance < 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkForFish(int x, int y) {
+        for (Fish f : fishList) {
+            if (f.getX() == x && f.getY() == y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int whereToMove() {
+        Fish lowestFish = new Fish(fishList.size() - 1);
+        for (Fish f : fishList) {
+            if (f.getY() > lowestFish.getY()) {
+                lowestFish = f;
+            }
+        }
+        return lowestFish.getX() - player.getX();
+    }
+
+    public boolean checkIfFishHitTheGround() {
+        for (Fish f : fishList) {
+            if (f.getY() == 8) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkIfGameIsRunning() {
+        if (gameRunning) {
+            return true;
+        }
+        return false;
+    }
+    
+    public void massDestruction() {
+        if (!fishList.isEmpty()) {
+            try {
+                for (Fish f : fishList) {
+                    fishList.remove(f);
+                    this.timeSinceMassDestruction = 0;
+                }
+            } catch (Exception e) {
+                System.out.println("Barf");
+            }
         }
     }
 }

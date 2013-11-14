@@ -16,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author werepizza
  */
-public class EatingBassTest {
+public class PlayerTest {
 
-    public EatingBassTest() {
+    public PlayerTest() {
     }
 
     @BeforeClass
@@ -35,14 +35,6 @@ public class EatingBassTest {
 
     @After
     public void tearDown() {
-    }
-
-    @Test
-    public void kaynnistyykoPeli() {
-        try {
-            Level level = new Level();
-        } catch (Exception e) {
-        }
     }
 
     @Test
@@ -77,5 +69,23 @@ public class EatingBassTest {
         Player pelaaja = new Player();
         pelaaja.move(2);
         assertEquals(Integer.toString(pelaaja.getX()), "6");
+    }
+
+    @Test
+    public void pelaajaEiMeneReunanYliVasemmalle() {
+        Player pelaaja = new Player();
+        for (int i = 0; i < 8; i++) {
+            pelaaja.move(-1);
+        }
+        assertEquals(Integer.toString(pelaaja.getX()), "0");
+    }
+
+    @Test
+    public void pelaajaEiMeneReunanYliOikealle() {
+        Player pelaaja = new Player();
+        for (int i = 0; i < 8; i++) {
+            pelaaja.move(1);
+        }
+        assertEquals(Integer.toString(pelaaja.getX()), "8");
     }
 }

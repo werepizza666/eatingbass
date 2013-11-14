@@ -2,3 +2,5 @@
 31.10. 2h 	githubiin tutustuminen + asentaminen
 		aiheen kuvaus
 07.11. 6h	esitietojen kertaus + koodaus
+11.11. 4h	koodaus
+14.11. 3h	koodaus + lisää testejä
