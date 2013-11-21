@@ -4,3 +4,4 @@
 07.11. 6h	esitietojen kertaus + koodaus
 11.11. 4h	koodaus
 14.11. 3h	koodaus + lisää testejä
+21.11. 8h	koodaus (tappelua graafisen käyttöliittymän kanssa)

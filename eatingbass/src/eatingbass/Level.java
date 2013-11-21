@@ -10,9 +10,11 @@ public class Level {
 
     private Player player = new Player();
     private List<Fish> fishList = new ArrayList<Fish>();
+    private List<Rock> rockList = new ArrayList<Rock>();
     private boolean gameRunning;
     private int score;
     private int timeSinceLastFish;
+    private int timeSinceLastCastOfRocks;
     private int timeSinceMassDestruction;
     String[] level1 = {".........",
         ".........",
@@ -52,10 +54,12 @@ public class Level {
             for (int j = 0; j < 9; j++) {
                 if (j == player.getX() && i == player.getY()) {
                     System.out.print("P");
-                } else if (!checkForFish(j, i)) {
-                    System.out.print(level1[i].charAt(j));
-                } else {
+                } else if (checkForFish(j, i)) {
                     System.out.print("F");
+                } else if (checkForRock(j, i)) {
+                    System.out.print("R");
+                } else {
+                    System.out.print(level1[i].charAt(j));
                 }
 
             }
@@ -70,7 +74,8 @@ public class Level {
 
     public void updateGame() {
 
-
+        checkIfPlayerIsHitByARock();
+        
         if (whereToMove() < 0) {
             player.move(-1);
         }
@@ -79,6 +84,13 @@ public class Level {
         }
         for (Fish f : fishList) {
             f.fall();
+        }
+        for (Rock r : rockList) {
+            r.fall();
+        }
+        timeSinceLastCastOfRocks++;
+        if (timeSinceLastCastOfRocks == 16) {
+            castRocks();
         }
         checkIfFishIsEaten();
         if (checkIfFishHitTheGround()) {
@@ -170,7 +182,7 @@ public class Level {
         }
         return false;
     }
-    
+
     public void massDestruction() {
         if (!fishList.isEmpty()) {
             try {
@@ -182,5 +194,33 @@ public class Level {
                 System.out.println("Barf");
             }
         }
+    }
+
+    public void castRocks() {
+        for (int i = 0; i < 5; i++) {
+            rockList.add(new Rock(i * 2));
+        }
+        this.timeSinceLastCastOfRocks = 0;
+    }
+
+    public boolean checkForRock(int x, int y) {
+        for (Rock r : rockList) {
+            if (r.getX() == x && r.getY() == y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void checkIfPlayerIsHitByARock() {
+        for (Rock r : rockList) {
+            if (this.player.getX() == r.getX()) {
+                if (this.player.getY() == r.getY()) {
+                    System.out.println("you choked on a rock");
+                    this.quit();
+                }
+            }
+        }
+        
     }
 }
