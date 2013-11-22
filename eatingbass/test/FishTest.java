@@ -50,4 +50,11 @@ public class FishTest {
         Fish fish = new Fish(0);
         assertEquals(Integer.toString(fish.getY()), "0");
     }
+    
+    @Test
+    public void toimiikoFallMetodi() {
+        Fish f = new Fish(0);
+        f.fall();
+        assertEquals(Integer.toString(f.getY()), "1");
+    }
 }

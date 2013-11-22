@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-import eatingbass.Level;
+import eatingbass.Rock;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,46 +15,37 @@ import static org.junit.Assert.*;
  *
  * @author werepizza
  */
-public class LevelTest {
-
-    public LevelTest() {
+public class RockTest {
+    
+    public RockTest() {
     }
-
+    
     @BeforeClass
     public static void setUpClass() {
     }
-
+    
     @AfterClass
     public static void tearDownClass() {
     }
-
+    
     @Before
     public void setUp() {
     }
-
+    
     @After
     public void tearDown() {
     }
 
     @Test
-    public void kaynnistyykoPeli() {
-        try {
-            Level level = new Level();
-        } catch (Exception e) {
-        }
-    }
-
-    @Test
-    public void toimiikoQuitMetodi() {
-        Level level = new Level();
-        level.quit();
-        boolean vastaus = level.checkIfGameIsRunning();
-        assertEquals(Boolean.toString(vastaus), "false");
+    public void syntyykoKiviYlareunaan() {
+        Rock r = new Rock(0);
+        assertEquals(Integer.toString(r.getY()), "0");
     }
     
     @Test
-    public void toimiikoNewFishMetodi() {
-        Level l = new Level();
-        
+    public void toimiikoFallMetodi() {
+        Rock r = new Rock(0);
+        r.fall();
+        assertEquals(Integer.toString(r.getY()), "1");
     }
 }
