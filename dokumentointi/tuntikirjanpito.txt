@@ -5,3 +5,6 @@
 11.11. 4h	koodaus
 14.11. 3h	koodaus + lisää testejä
 21.11. 8h	koodaus (tappelua graafisen käyttöliittymän kanssa)
+25.11. 2h	koodaus (tappelua graafisen käyttöliittymän kanssa)
+26.11. 6h	koodaus (tappelua graafisen käyttöliittymän kanssa)
+28.11. 6h	koodaus - " -, javadoc

@@ -1,5 +1,8 @@
-package eatingbass;
-
+package eatingbass.gamelogic;
+/**
+ * Player kuvaa pelin pelaajaa
+ * @author werepizza
+ */
 public class Player {
 
     private int x;
@@ -26,5 +29,9 @@ public class Player {
             return;
         }
         this.x = this.x + dx;
+    }
+    
+    public void doMagic() {
+        System.out.println("MAGIC!");
     }
 }

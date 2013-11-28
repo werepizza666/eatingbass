@@ -3,8 +3,8 @@
  * and open the template in the editor.
  */
 
-import eatingbass.Fish;
-import eatingbass.Level;
+import eatingbass.gamelogic.Fish;
+import eatingbass.gamelogic.Level;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

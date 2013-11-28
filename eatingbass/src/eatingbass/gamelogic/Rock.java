@@ -1,5 +1,8 @@
-package eatingbass;
-
+package eatingbass.gamelogic;
+/**
+ * Rock kuvaa pelin kivi-ilmentymiä
+ * @author werepizza
+ */
 public class Rock {
 
     private int x;
@@ -9,7 +12,9 @@ public class Rock {
         this.x = initialX;
         this.y = 0;
     }
-
+/**
+ * fall siirtää kiveä pykälän alemmas
+ */
     public void fall() {
         this.y += 1;
     }

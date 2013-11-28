@@ -1,14 +1,17 @@
-package eatingbass;
+package eatingbass.gamelogic;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Logger;
-
+/**
+ * Level-luokassa on kaikki pelin sisältämät ilmentymät.
+ * @author werepizza
+ */
 public class Level {
 
-    private Player player = new Player();
+    private Player player;
     private List<Fish> fishList = new ArrayList<Fish>();
     private List<Rock> rockList = new ArrayList<Rock>();
     private boolean gameRunning;
@@ -25,6 +28,11 @@ public class Level {
         ".........",
         ".........",
         "........."};
+    
+    public Level(Player player) {
+        this.player = player;
+        this.run();
+    }
 
     public void run() {
 //        Scanner scanner = new Scanner(System.in);
@@ -34,18 +42,17 @@ public class Level {
         this.timeSinceMassDestruction = 0;
         this.score = 0;
         newFish();
-        while (gameRunning) {
-            this.draw();
+        this.draw();
 //            System.out.println("liiku vasemmalle, oikealle tai pysy paikallaan(v/o/p):");
 //            input = scanner.nextLine();
-            updateGame();
+        updateGame();
 
-            try {
-                Thread.sleep(400);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Level.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            }
+        try {
+            Thread.sleep(400);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Level.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+
     }
 
     public void draw() {
@@ -71,11 +78,13 @@ public class Level {
     public void quit() {
         this.gameRunning = false;
     }
-
+/**
+ * päivittää ilmentymien sijainnit
+ */
     public void updateGame() {
 
         checkIfPlayerIsHitByARock();
-        
+
         if (whereToMove() < 0) {
             player.move(-1);
         }
@@ -221,6 +230,10 @@ public class Level {
                 }
             }
         }
-        
+
+    }
+    
+    public ArrayList<Fish> getFishList() {
+        return (ArrayList<Fish>) fishList;
     }
 }

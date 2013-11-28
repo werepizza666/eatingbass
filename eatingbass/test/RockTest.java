@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-import eatingbass.Rock;
+import eatingbass.gamelogic.Rock;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

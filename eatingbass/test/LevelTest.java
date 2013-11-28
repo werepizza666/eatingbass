@@ -3,7 +3,8 @@
  * and open the template in the editor.
  */
 
-import eatingbass.Level;
+import eatingbass.gamelogic.Level;
+import eatingbass.gamelogic.Player;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -39,22 +40,27 @@ public class LevelTest {
     @Test
     public void kaynnistyykoPeli() {
         try {
-            Level level = new Level();
+            Player player = new Player();
+            Level level = new Level(player);
         } catch (Exception e) {
         }
     }
 
     @Test
     public void toimiikoQuitMetodi() {
-        Level level = new Level();
+        Player player = new Player();
+        Level level = new Level(player);
         level.quit();
         boolean vastaus = level.checkIfGameIsRunning();
         assertEquals(Boolean.toString(vastaus), "false");
     }
-    
+
     @Test
     public void toimiikoNewFishMetodi() {
-        Level l = new Level();
-        
+        Player player = new Player();
+        Level level = new Level(player);
+
+        level.newFish();
+
     }
 }

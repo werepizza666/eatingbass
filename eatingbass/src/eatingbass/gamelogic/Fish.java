@@ -1,6 +1,9 @@
 
-package eatingbass;
-
+package eatingbass.gamelogic;
+/**
+ * Fish-luokka kuvaa pelissä putoavaa kalaa
+ * @author werepizza
+ */
 public class Fish{
     private int x;
     private int y;
@@ -9,6 +12,9 @@ public class Fish{
         this.x = initialX;
         this.y = 0;
     }
+    /**
+     * siirtää kalan sijainnin pykälän alemmas
+     */
     public void fall() {
         this.y += 1;
     }
