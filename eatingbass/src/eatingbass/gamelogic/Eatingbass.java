@@ -1,4 +1,4 @@
-package eatingbass;
+package eatingbass.gamelogic;
 
 import eatingbass.gamelogic.Level;
 import eatingbass.gamelogic.Player;
@@ -15,27 +15,22 @@ import javax.swing.JFrame;
 
 /**
  * Luokka vastaa tällä hetkellä pelin logiikasta
- * 
+ *
  */
-
 public class Eatingbass extends Canvas implements Runnable {
 
-    public final int width = 200;
-    public final int height = width / 4 * 3;
+    public final int width = 180;
+    public final int height = 180;
     public static int scale = 4;
-    
 //    private Thread thread;
 //    
 //    
     private JFrame container;
     private Keylistener keyboard = new Keylistener();
-    private Level peli;
     private Player player;
     private boolean gameRunning = false;
-    
     private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
-    
+    private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
     private Screen screen;
 
     public Eatingbass() {
@@ -44,10 +39,9 @@ public class Eatingbass extends Canvas implements Runnable {
         setPreferredSize(new Dimension(width * scale, height * scale));
         screen = new Screen(width, height);
         container = new JFrame("Like Eating Bass");
-        container.addKeyListener(keyboard);
+        addKeyListener(keyboard);
         player = new Player();
-        peli = new Level(player);
-        peli.run();
+        Level.level1.run();
 //
 //        container.setResizable(false);
 //        container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -78,10 +72,11 @@ public class Eatingbass extends Canvas implements Runnable {
 //            e.printStackTrace();
 //        }
 //    }
-/**
- * Pelin loop
- * 
- */
+
+    /**
+     * Pelin loop
+     *
+     */
     @Override
     public void run() {
         long lastTime = System.nanoTime();
@@ -89,29 +84,31 @@ public class Eatingbass extends Canvas implements Runnable {
         double delta = 0;
 
         while (gameRunning) {
-            peli.updateGame();
+            Level.level1.updateGame();
+            Level.level1.draw();
             long now = System.nanoTime();
             delta += (now - lastTime) / nanosecond;
             lastTime = now;
             while (delta >= 1) {
-            update();
-            delta--;
+                update();
+                delta--;
             }
             render();
-            peli.draw();
-            
-        try {
-            Thread.sleep(400);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Level.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+
+
+            try {
+                Thread.sleep(400);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Level.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            }
 //            System.out.println("running");
         }
     }
-/**
- * Ruudun päivitys
- * 
- */
+
+    /**
+     * Ruudun päivitys
+     *
+     */
     public void render() {
         BufferStrategy strategy = getBufferStrategy();
         if (strategy == null) {
@@ -120,30 +117,29 @@ public class Eatingbass extends Canvas implements Runnable {
         }
         screen.clear();
         screen.render();
-        
-        for (int i = 0 ; i < pixels.length; i++) {
+
+        for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.getPixel(i);
         }
         Graphics g = strategy.getDrawGraphics();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-//        g.setColor(Color.BLACK);
-//        g.fillRect(0, 0, getWidth(), getHeight());
         g.dispose();
         strategy.show();
 
     }
-/**
- * Pelaajan, kalojen ja kivien sijainnin päivitys
- */
+
+    /**
+     * Pelaajan, kalojen ja kivien sijainnin päivitys
+     */
     public void update() {
         if (keyboard.moveLeft()) {
-            player.move(-1);
+            Level.level1.updatePlayerLocation(-1);
         }
         if (keyboard.moveRight()) {
-            player.move(1);
+            Level.level1.updatePlayerLocation(1);
         }
         if (keyboard.doMagic()) {
-            player.doMagic();
+            Level.level1.tryDoMagic();
         }
     }
 

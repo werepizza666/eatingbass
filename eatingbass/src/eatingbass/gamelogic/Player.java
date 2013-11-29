@@ -7,7 +7,8 @@ public class Player {
 
     private int x;
     private int y;
-
+    public static Player player1 = new Player();
+    
     public Player() {
         this.x = 4;
         this.y = 8;

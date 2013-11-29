@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  */
 public class Level {
 
-    private Player player;
+    private Player player1;
     private List<Fish> fishList = new ArrayList<Fish>();
     private List<Rock> rockList = new ArrayList<Rock>();
     private boolean gameRunning;
@@ -19,7 +19,7 @@ public class Level {
     private int timeSinceLastFish;
     private int timeSinceLastCastOfRocks;
     private int timeSinceMassDestruction;
-    String[] level1 = {".........",
+    String[] levelTiles = {".........",
         ".........",
         ".........",
         ".........",
@@ -28,15 +28,14 @@ public class Level {
         ".........",
         ".........",
         "........."};
-    
-    public Level(Player player) {
-        this.player = player;
-        this.run();
+    public static Level level1 = new Level();
+    public Level() {
+        
     }
 
     public void run() {
 //        Scanner scanner = new Scanner(System.in);
-//        String input;
+        this.player1 = new Player();
         this.gameRunning = true;
         this.timeSinceLastFish = 0;
         this.timeSinceMassDestruction = 0;
@@ -59,14 +58,14 @@ public class Level {
         System.out.println("_________basses eaten:" + this.score);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (j == player.getX() && i == player.getY()) {
+                if (j == player1.getX() && i == player1.getY()) {
                     System.out.print("P");
                 } else if (checkForFish(j, i)) {
                     System.out.print("F");
                 } else if (checkForRock(j, i)) {
                     System.out.print("R");
                 } else {
-                    System.out.print(level1[i].charAt(j));
+                    System.out.print(levelTiles[i].charAt(j));
                 }
 
             }
@@ -86,10 +85,10 @@ public class Level {
         checkIfPlayerIsHitByARock();
 
         if (whereToMove() < 0) {
-            player.move(-1);
+            player1.move(-1);
         }
         if (whereToMove() > 0) {
-            player.move(1);
+            player1.move(1);
         }
         for (Fish f : fishList) {
             f.fall();
@@ -118,8 +117,8 @@ public class Level {
 
     public boolean checkIfFishIsEaten() {
         for (Fish f : fishList) {
-            if (this.player.getX() == f.getX()) {
-                if (this.player.getY() == f.getY()) {
+            if (this.player1.getX() == f.getX()) {
+                if (this.player1.getY() == f.getY()) {
                     this.score += 1;
                     fishList.remove(f);
                     return true;
@@ -173,7 +172,7 @@ public class Level {
                 lowestFish = f;
             }
         }
-        return lowestFish.getX() - player.getX();
+        return lowestFish.getX() - player1.getX();
     }
 
     public boolean checkIfFishHitTheGround() {
@@ -223,8 +222,8 @@ public class Level {
 
     public void checkIfPlayerIsHitByARock() {
         for (Rock r : rockList) {
-            if (this.player.getX() == r.getX()) {
-                if (this.player.getY() == r.getY()) {
+            if (this.player1.getX() == r.getX()) {
+                if (this.player1.getY() == r.getY()) {
                     System.out.println("you choked on a rock");
                     this.quit();
                 }
@@ -235,5 +234,21 @@ public class Level {
     
     public ArrayList<Fish> getFishList() {
         return (ArrayList<Fish>) fishList;
+    }
+    
+    public ArrayList<Rock> getRockList() {
+        return (ArrayList<Rock>) rockList;
+    }
+    
+    public int playerLocation() {
+        return player1.getX()*20;
+    }
+    
+    public void updatePlayerLocation(int dx) {
+        player1.move(dx);
+    }
+    
+    public void tryDoMagic() {
+        player1.doMagic();
     }
 }

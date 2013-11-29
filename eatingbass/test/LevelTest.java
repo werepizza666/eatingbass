@@ -40,16 +40,14 @@ public class LevelTest {
     @Test
     public void kaynnistyykoPeli() {
         try {
-            Player player = new Player();
-            Level level = new Level(player);
+            Level level = new Level();
         } catch (Exception e) {
         }
     }
 
     @Test
     public void toimiikoQuitMetodi() {
-        Player player = new Player();
-        Level level = new Level(player);
+        Level level = new Level();
         level.quit();
         boolean vastaus = level.checkIfGameIsRunning();
         assertEquals(Boolean.toString(vastaus), "false");
@@ -57,8 +55,7 @@ public class LevelTest {
 
     @Test
     public void toimiikoNewFishMetodi() {
-        Player player = new Player();
-        Level level = new Level(player);
+        Level level = new Level();
 
         level.newFish();
 

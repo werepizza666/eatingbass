@@ -1,7 +1,7 @@
 
 package eatingbass.ui;
 
-import java.util.Random;
+
 
 /**
  * Sprite-luokan ilmentymät ovat yksittäisiä spriteja taulukoituna pikseli-muodossa.
@@ -16,10 +16,10 @@ public class Sprite {
     
     public static Sprite player = new Sprite(20, 0, 0, SpriteSheet.tiles);
     public static Sprite wall = new Sprite(20, 1, 2, SpriteSheet.tiles);
+    public static Sprite water = new Sprite(20, 0, 2, SpriteSheet.tiles);
+    public static Sprite fish = new Sprite(20, 0, 1, SpriteSheet.tiles);
+    public static Sprite rock = new Sprite(20, 1, 1, SpriteSheet.tiles);
     
-    Random r = new Random();
-    int indeksi = r.nextInt(5);
-    public Sprite jee = new Sprite(20, indeksi, 0, SpriteSheet.tiles);
     public Sprite(int size, int x, int y, SpriteSheet sheet) {
         SIZE = size;
         this.x = x*size;
