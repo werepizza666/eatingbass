@@ -45,12 +45,8 @@ public class Screen {
     }
 
     public void renderPlayer() {
-
-        int w = Sprite.player.SIZE;
-        int h = Sprite.player.SIZE;
-
         xOffset = Level.level1.playerLocation();
-//        yPos -= yOffset;
+
 
         for (int y = 160; y < height; y++) {
 //            if (yPos + y < 0 || yPos + y >= height) continue;

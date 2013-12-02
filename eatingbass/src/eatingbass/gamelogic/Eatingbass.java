@@ -68,15 +68,19 @@ public class Eatingbass extends Canvas implements Runnable {
         double delta = 0;
         requestFocus();
         while (gameRunning) {
-//            Level.level1.updateGame();
-//            Level.level1.draw();
+
             long now = System.nanoTime();
             delta += (now - lastTime) / nanosecond;
             lastTime = now;
             while (delta >= 1) {
+
                 update();
                 render();
                 Level.level1.updateGame();
+                if (!Level.level1.checkIfGameIsRunning()) {
+                    quit();
+                    break;
+                }
                 Level.level1.draw();
                 delta--;
 
@@ -90,6 +94,10 @@ public class Eatingbass extends Canvas implements Runnable {
                 }
             }
         }
+    }
+
+    public void quit() {
+        this.gameRunning = false;
     }
 
     /**
