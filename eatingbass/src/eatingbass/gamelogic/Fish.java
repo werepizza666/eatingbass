@@ -6,17 +6,17 @@ package eatingbass.gamelogic;
  */
 public class Fish{
     private int x;
-    private int y;
+    private int y = 0;
     
     public Fish(int initialX) {
-        this.x = initialX;
-        this.y = 0;
+        this.x = initialX*20;
+        this.y = y*20;
     }
     /**
      * siirtää kalan sijainnin pykälän alemmas
      */
     public void fall() {
-        this.y += 1;
+        this.y += 1*5;
     }
     
     public int getX() {

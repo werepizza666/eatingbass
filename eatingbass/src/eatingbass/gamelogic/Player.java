@@ -10,8 +10,8 @@ public class Player {
     public static Player player1 = new Player();
     
     public Player() {
-        this.x = 4;
-        this.y = 8;
+        this.x = 4*20;
+        this.y = 8*20;
     }
 
     public int getX() {
@@ -19,14 +19,14 @@ public class Player {
     }
 
     public int getY() {
-        return 8;
+        return this.y;
     }
 
     public void move(int dx) {
         if (dx < 0 && this.x == 0) {
             return;
         }
-        if (dx > 0 && this.x == 8) {
+        if (dx > 0 && this.x == 160) {
             return;
         }
         this.x = this.x + dx;

@@ -5,13 +5,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class Keylistener implements KeyListener {
-    
+
     private boolean leftPressed = false;
     private boolean rightPressed = false;
     private boolean spacePressed = false;
-    
+
     public Keylistener() {
-        
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -32,6 +31,8 @@ public class Keylistener implements KeyListener {
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             rightPressed = true;
+            
+
         }
         if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             spacePressed = true;
@@ -42,6 +43,7 @@ public class Keylistener implements KeyListener {
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             leftPressed = false;
+
         }
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             rightPressed = false;
@@ -50,21 +52,21 @@ public class Keylistener implements KeyListener {
             spacePressed = false;
         }
     }
-    
+
     public boolean moveLeft() {
         if (this.leftPressed) {
             return true;
         }
         return false;
     }
-    
+
     public boolean moveRight() {
         if (this.rightPressed) {
             return true;
         }
         return false;
     }
-    
+
     public boolean doMagic() {
         if (this.spacePressed) {
             return true;

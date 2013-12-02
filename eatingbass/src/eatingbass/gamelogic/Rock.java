@@ -6,17 +6,17 @@ package eatingbass.gamelogic;
 public class Rock {
 
     private int x;
-    private int y;
+    private int y = 0;
 
     public Rock(int initialX) {
-        this.x = initialX;
-        this.y = 0;
+        this.x = initialX*20;
+        this.y = this.y*20;
     }
 /**
  * fall siirtää kiveä pykälän alemmas
  */
     public void fall() {
-        this.y += 1;
+        this.y += 5;
     }
 
     public int getX() {

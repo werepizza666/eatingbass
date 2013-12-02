@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.logging.Logger;
+
 /**
  * Level-luokassa on kaikki pelin sisältämät ilmentymät.
+ *
  * @author werepizza
  */
 public class Level {
@@ -29,8 +31,8 @@ public class Level {
         ".........",
         "........."};
     public static Level level1 = new Level();
+
     public Level() {
-        
     }
 
     public void run() {
@@ -58,7 +60,7 @@ public class Level {
         System.out.println("_________basses eaten:" + this.score);
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (j == player1.getX() && i == player1.getY()) {
+                if (j * 20 == player1.getX() && i * 20 == player1.getY()) {
                     System.out.print("P");
                 } else if (checkForFish(j, i)) {
                     System.out.print("F");
@@ -77,41 +79,37 @@ public class Level {
     public void quit() {
         this.gameRunning = false;
     }
-/**
- * päivittää ilmentymien sijainnit
- */
+
+    /**
+     * päivittää ilmentymien sijainnit
+     */
     public void updateGame() {
 
         checkIfPlayerIsHitByARock();
-
-        if (whereToMove() < 0) {
-            player1.move(-1);
-        }
-        if (whereToMove() > 0) {
-            player1.move(1);
-        }
+//        if (whereToMove() < 0) {
+//            player1.move(-5);
+//        }
+//        if (whereToMove() > 0) {
+//            player1.move(5);
+//        }
         for (Fish f : fishList) {
             f.fall();
         }
         for (Rock r : rockList) {
             r.fall();
         }
-        timeSinceLastCastOfRocks++;
-        if (timeSinceLastCastOfRocks == 16) {
-            castRocks();
-        }
         checkIfFishIsEaten();
         if (checkIfFishHitTheGround()) {
             quit();
         }
         timeSinceMassDestruction++;
-        if (timeSinceMassDestruction == 28) {
-            massDestruction();
-        }
         timeSinceLastFish++;
-        if (timeSinceLastFish == 5 || timeSinceMassDestruction == 0) {
+        if (timeSinceLastFish == 20 || timeSinceMassDestruction == 0) {
             newFish();
-
+        }
+                timeSinceLastCastOfRocks++;
+        if (timeSinceLastCastOfRocks == 60) {
+            castRocks();
         }
     }
 
@@ -158,7 +156,7 @@ public class Level {
 
     public boolean checkForFish(int x, int y) {
         for (Fish f : fishList) {
-            if (f.getX() == x && f.getY() == y) {
+            if (f.getX() == x * 20 && f.getY() == y * 20) {
                 return true;
             }
         }
@@ -177,7 +175,7 @@ public class Level {
 
     public boolean checkIfFishHitTheGround() {
         for (Fish f : fishList) {
-            if (f.getY() == 8) {
+            if (f.getY() == 160) {
                 return true;
             }
         }
@@ -206,14 +204,19 @@ public class Level {
 
     public void castRocks() {
         for (int i = 0; i < 5; i++) {
-            rockList.add(new Rock(i * 2));
+            if (!checkForFish(i * 2, 0)) {
+                rockList.add(new Rock(i * 2));
+
+            }
+
+
         }
         this.timeSinceLastCastOfRocks = 0;
     }
 
     public boolean checkForRock(int x, int y) {
         for (Rock r : rockList) {
-            if (r.getX() == x && r.getY() == y) {
+            if (r.getX() == x * 20 && r.getY() == y * 20) {
                 return true;
             }
         }
@@ -222,8 +225,8 @@ public class Level {
 
     public void checkIfPlayerIsHitByARock() {
         for (Rock r : rockList) {
-            if (this.player1.getX() == r.getX()) {
-                if (this.player1.getY() == r.getY()) {
+            if (this.player1.getX()/ 20 == r.getX()) {
+                if (this.player1.getY() / 20 == r.getY()) {
                     System.out.println("you choked on a rock");
                     this.quit();
                 }
@@ -231,23 +234,23 @@ public class Level {
         }
 
     }
-    
+
     public ArrayList<Fish> getFishList() {
         return (ArrayList<Fish>) fishList;
     }
-    
+
     public ArrayList<Rock> getRockList() {
         return (ArrayList<Rock>) rockList;
     }
-    
+
     public int playerLocation() {
-        return player1.getX()*20;
+        return player1.getX();
     }
-    
+
     public void updatePlayerLocation(int dx) {
-        player1.move(dx);
+        player1.move(dx*5);
     }
-    
+
     public void tryDoMagic() {
         player1.doMagic();
     }

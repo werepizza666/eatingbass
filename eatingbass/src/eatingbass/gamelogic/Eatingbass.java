@@ -27,7 +27,6 @@ public class Eatingbass extends Canvas implements Runnable {
 //    
     private JFrame container;
     private Keylistener keyboard = new Keylistener();
-    private Player player;
     private boolean gameRunning = false;
     private BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     private int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
@@ -40,22 +39,7 @@ public class Eatingbass extends Canvas implements Runnable {
         screen = new Screen(width, height);
         container = new JFrame("Like Eating Bass");
         addKeyListener(keyboard);
-        player = new Player();
         Level.level1.run();
-//
-//        container.setResizable(false);
-//        container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        container.add();
-//        container.pack();
-//        container.setVisible(true);
-
-//        JPanel panel = new JPanel();
-//        container.getContentPane().add(panel);
-
-
-
-//        Graphics graphics = panel.getGraphics();
-//        graphics.setColor(Color.BLACK);
 
 
     }
@@ -82,26 +66,29 @@ public class Eatingbass extends Canvas implements Runnable {
         long lastTime = System.nanoTime();
         final double nanosecond = 1000000000.0 / 60.0;
         double delta = 0;
-
+        requestFocus();
         while (gameRunning) {
-            Level.level1.updateGame();
-            Level.level1.draw();
+//            Level.level1.updateGame();
+//            Level.level1.draw();
             long now = System.nanoTime();
             delta += (now - lastTime) / nanosecond;
             lastTime = now;
             while (delta >= 1) {
                 update();
+                render();
+                Level.level1.updateGame();
+                Level.level1.draw();
                 delta--;
-            }
-            render();
 
+//            update();
+//            render();
 
-            try {
-                Thread.sleep(400);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Level.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Level.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                }
             }
-//            System.out.println("running");
         }
     }
 
@@ -117,6 +104,11 @@ public class Eatingbass extends Canvas implements Runnable {
         }
         screen.clear();
         screen.render();
+        screen.renderWater();
+        screen.renderPlayer();
+        screen.renderFish();
+        screen.renderRocks();
+
 
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.getPixel(i);
@@ -132,14 +124,16 @@ public class Eatingbass extends Canvas implements Runnable {
      * Pelaajan, kalojen ja kivien sijainnin päivitys
      */
     public void update() {
+
         if (keyboard.moveLeft()) {
             Level.level1.updatePlayerLocation(-1);
         }
         if (keyboard.moveRight()) {
             Level.level1.updatePlayerLocation(1);
         }
+
         if (keyboard.doMagic()) {
-            Level.level1.tryDoMagic();
+            Level.level1.massDestruction();
         }
     }
 
