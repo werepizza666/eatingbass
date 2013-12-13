@@ -66,7 +66,7 @@ public class Keylistener implements KeyListener {
         return false;
     }
 
-    public boolean doMagic() {
+    public boolean tryMassDestruction() {
         if (this.spacePressed) {
             return true;
         }

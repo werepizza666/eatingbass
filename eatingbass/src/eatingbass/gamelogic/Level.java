@@ -86,7 +86,7 @@ public class Level {
      */
     public void updateGame() {
         if (score == 10) {
-            makePlayerFat();
+            makeSuperPlayer();
         }
         checkIfPlayerIsHitByARock();
         checkIfFishIsEaten();
@@ -100,7 +100,7 @@ public class Level {
         for (Fish f : fishList) {
             f.fall();
         }
-        
+
         for (Rock r : rockList) {
             r.fall();
         }
@@ -108,7 +108,7 @@ public class Level {
 
         timeSinceMassDestruction++;
         timeSinceLastFish++;
-        if (!this.superPlayer && timeSinceLastFish % 25 == 0 || this.superPlayer && timeSinceLastFish % 15 == 0 || timeSinceMassDestruction == 0) {
+        if (!this.superPlayer && timeSinceLastFish % 25 == 0 || this.superPlayer && timeSinceLastFish % 25 == 0 || timeSinceMassDestruction == 0) {
             newFish();
         }
         timeSinceLastCastOfRocks++;
@@ -141,6 +141,9 @@ public class Level {
             }
         }
         this.timeSinceLastFish = 0;
+        if (superPlayer) {
+            timeSinceLastFish += (random.nextInt(4) * 5);
+        }
 
     }
 
@@ -186,7 +189,7 @@ public class Level {
         }
 
     }
-    
+
     public void removeFallenRocks() {
         for (Rock r : rockList) {
             if (r.getY() > 170) {
@@ -209,6 +212,7 @@ public class Level {
                     fishList.remove(f);
                     this.timeSinceMassDestruction = 0;
                 }
+
             } catch (Exception e) {
                 System.out.println("Barf");
             }
@@ -218,6 +222,9 @@ public class Level {
     public void castRocks() {
         Random random = new Random();
         int amount = random.nextInt(7);
+        if (superPlayer) {
+            amount *= 2;
+        }
         for (int i = 0; i < amount + 1; i++) {
             int initialX = random.nextInt(8);
             if (!checkForFish(initialX, 0)) {
@@ -227,6 +234,9 @@ public class Level {
             }
         }
         this.timeSinceLastCastOfRocks = 0;
+        if (superPlayer) {
+            timeSinceLastCastOfRocks += (random.nextInt(4) * 5);
+        }
     }
 
     public boolean checkForRock(int x, int y) {
@@ -264,25 +274,20 @@ public class Level {
     }
 
     public void updatePlayerLocation(int dx) {
-        player1.move(dx*5);
-        
+        player1.move(dx * 5);
     }
 
-    public void tryDoMagic() {
-        player1.doMagic();
-    }
-    
     public String getScore() {
         if (this.score < 10) {
             return "0" + this.score;
         }
         return String.valueOf(this.score);
     }
-    
-    public void makePlayerFat() {
+
+    public void makeSuperPlayer() {
         superPlayer = true;
     }
-    
+
     public boolean getSuperPlayer() {
         return superPlayer;
     }

@@ -152,7 +152,7 @@ public class Eatingbass extends Canvas implements Runnable {
             Level.level1.updatePlayerLocation(1);
         }
 
-        if (keyboard.doMagic()) {
+        if (keyboard.tryMassDestruction()) {
             Level.level1.massDestruction();
         }
     }

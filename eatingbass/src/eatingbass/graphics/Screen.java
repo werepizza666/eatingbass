@@ -148,8 +148,7 @@ public class Screen {
 
     public Font getFont() {
         try {
-            InputStream in = new FileInputStream("src/font1.ttf");
-            Font font = Font.createFont(Font.TRUETYPE_FONT, in);
+            Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/font1.ttf"));
             return font.deriveFont(24f);
         } catch (Exception e) {
             System.out.println("ei fonttia " + e);
