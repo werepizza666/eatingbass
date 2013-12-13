@@ -21,6 +21,7 @@ public class Level {
     private int timeSinceLastFish;
     private int timeSinceLastCastOfRocks;
     private int timeSinceMassDestruction;
+    private boolean superPlayer = false;
     String[] levelTiles = {".........",
         ".........",
         ".........",
@@ -84,7 +85,9 @@ public class Level {
      * päivittää ilmentymien sijainnit
      */
     public void updateGame() {
-        
+        if (score == 10) {
+            makePlayerFat();
+        }
         checkIfPlayerIsHitByARock();
         checkIfFishIsEaten();
 
@@ -105,11 +108,11 @@ public class Level {
 
         timeSinceMassDestruction++;
         timeSinceLastFish++;
-        if (timeSinceLastFish == 25 || timeSinceMassDestruction == 0) {
+        if (!this.superPlayer && timeSinceLastFish % 25 == 0 || this.superPlayer && timeSinceLastFish % 15 == 0 || timeSinceMassDestruction == 0) {
             newFish();
         }
         timeSinceLastCastOfRocks++;
-        if (timeSinceLastCastOfRocks == 60) {
+        if (!this.superPlayer && timeSinceLastCastOfRocks % 60 == 0 || this.superPlayer && timeSinceLastCastOfRocks % 40 == 0) {
             castRocks();
         }
         checkIfFishHitTheGround();
@@ -183,6 +186,14 @@ public class Level {
         }
 
     }
+    
+    public void removeFallenRocks() {
+        for (Rock r : rockList) {
+            if (r.getY() > 170) {
+                rockList.remove(r);
+            }
+        }
+    }
 
     public boolean checkIfGameIsRunning() {
         if (gameRunning) {
@@ -211,7 +222,7 @@ public class Level {
             int initialX = random.nextInt(8);
             if (!checkForFish(initialX, 0)) {
                 if (!checkForRock(initialX, 0)) {
-                    rockList.add(new Rock(i * 2));
+                    rockList.add(new Rock(initialX));
                 }
             }
         }
@@ -227,14 +238,16 @@ public class Level {
         return false;
     }
 
-    public void checkIfPlayerIsHitByARock() {
+    public boolean checkIfPlayerIsHitByARock() {
         for (Rock r : rockList) {
             if (player1.getX() + 5 >= r.getX() && r.getX() + 5 >= player1.getX()) {
                 if (player1.getY() - 10 <= r.getY() && r.getY() <= 170) {
                     quit();
+                    return true;
                 }
             }
         }
+        return false;
 
     }
 
@@ -251,10 +264,26 @@ public class Level {
     }
 
     public void updatePlayerLocation(int dx) {
-        player1.move(dx * 5);
+        player1.move(dx*5);
+        
     }
 
     public void tryDoMagic() {
         player1.doMagic();
+    }
+    
+    public String getScore() {
+        if (this.score < 10) {
+            return "0" + this.score;
+        }
+        return String.valueOf(this.score);
+    }
+    
+    public void makePlayerFat() {
+        superPlayer = true;
+    }
+    
+    public boolean getSuperPlayer() {
+        return superPlayer;
     }
 }

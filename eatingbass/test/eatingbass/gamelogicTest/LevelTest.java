@@ -1,3 +1,5 @@
+package eatingbass.gamelogicTest;
+
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -58,6 +60,6 @@ public class LevelTest {
         Level level = new Level();
 
         level.newFish();
-
+        assertEquals(Integer.toString(level.getFishList().size()), "1");
     }
 }

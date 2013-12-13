@@ -21,7 +21,6 @@ public class Keylistener implements KeyListener {
     public void keyTyped(KeyEvent ke) {
         if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
         }
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

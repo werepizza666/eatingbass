@@ -1,4 +1,4 @@
-package eatingbass.ui;
+package eatingbass.graphics;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -12,7 +12,7 @@ public class SpriteSheet {
     private String path;
     public final int SIZE;
     public int[] pixels;
-    public static SpriteSheet tiles = new SpriteSheet("/eatingbass/ui/spritesheet.png", 200);
+    public static SpriteSheet tiles = new SpriteSheet("/spritesheet1.png", 200);
 
     public SpriteSheet(String path, int size) {
         this.path = path;

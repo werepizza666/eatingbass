@@ -8,3 +8,8 @@
 25.11. 2h	koodaus (tappelua graafisen käyttöliittymän kanssa)
 26.11. 6h	koodaus (tappelua graafisen käyttöliittymän kanssa)
 28.11. 6h	koodaus - " -, javadoc
+30.11. 2h 	koodaus
+03.12. 4h	koodaus
+05.12. 4h	koodaus
+12.12. 3h	koodaus
+13.12. 4h	koodaus

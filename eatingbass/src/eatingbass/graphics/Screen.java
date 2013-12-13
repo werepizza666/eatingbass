@@ -1,8 +1,13 @@
-package eatingbass.ui;
+package eatingbass.graphics;
 
 import eatingbass.gamelogic.Fish;
 import eatingbass.gamelogic.Level;
+import eatingbass.gamelogic.Player;
 import eatingbass.gamelogic.Rock;
+import java.awt.Font;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 /**
  * Screen-luokka piirtää kuvan ruudulle
@@ -25,38 +30,39 @@ public class Screen {
     /**
      * päivittää peliruudun pikselit
      */
-    public void render() {
+    public void renderWall() {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
 
                 pixels[x + y * width] = Sprite.wall.pixels[(x % 20) + (y % 20) * Sprite.wall.SIZE];
-
-//                if (y >= 160 && Level.level1.playerLocation() <= x && x < Level.level1.playerLocation() + 20) {
-//                    if (!checkIfPixelEmpty(Sprite.player, ((x % 20) + (y % 20) * Sprite.player.SIZE))) {
-//                        pixels[x + y * width] = Sprite.player.pixels[(x % 20) + (y % 20) * Sprite.player.SIZE];
-//                    }
-//                }
-
-
-
             }
         }
     }
 
     public void renderPlayer() {
         xOffset = Level.level1.playerLocation();
-
-
         for (int y = 160; y < height; y++) {
-//            if (yPos + y < 0 || yPos + y >= height) continue;
-            for (int x = 0; x < width; x++) {
-//                if (((x % 20) + (y % 20) * w - xOffset) < 0 || ((x % 20) + (y % 20) * w - xOffset) >= w) {
-//                    continue;
-//                }
+            for (int x = 0; x < Level.level1.playerLocation() + 20; x++) {
+
                 if (y >= 160 && Level.level1.playerLocation() <= x && x < Level.level1.playerLocation() + 20) {
-                    if (!checkIfPixelEmpty(Sprite.player, (((x - xOffset) % 20) + (y % 20) * Sprite.player.SIZE))) {
-                        pixels[x + y * width] = Sprite.player.pixels[((x - xOffset) % 20) + (y % 20) * Sprite.player.SIZE];
+                    if (Level.level1.checkIfPlayerIsHitByARock()) {
+                        if (!checkIfPixelEmpty(Sprite.deadPlayer, (((x - xOffset) % 20) + (y % 20) * Sprite.player.SIZE))) {
+                            pixels[x + y * width] = Sprite.deadPlayer.pixels[((x - xOffset) % 20) + (y % 20) * Sprite.player.SIZE];
+                        }
+                    } else if (Level.level1.getSuperPlayer()) {
+                        if (!checkIfPixelEmpty(Sprite.superPlayer, (((x - xOffset) % 20) + (y % 20) * Sprite.player.SIZE))) {
+                            pixels[x + y * width] = Sprite.superPlayer.pixels[((x - xOffset) % 20) + (y % 20) * Sprite.player.SIZE];
+                        }
+//                    } else if (Level.level1.checkIfFishIsEaten()) {
+//                        if (!checkIfPixelEmpty(Sprite.eatingPlayer, (((x - xOffset) % 20) + (y % 20) * Sprite.player.SIZE))) {
+//                            pixels[x + y * width] = Sprite.eatingPlayer.pixels[((x - xOffset) % 20) + (y % 20) * Sprite.player.SIZE];
+//                        }
+                    } else {
+                        if (!checkIfPixelEmpty(Sprite.player, (((x - xOffset) % 20) + (y % 20) * Sprite.player.SIZE))) {
+                            pixels[x + y * width] = Sprite.player.pixels[((x - xOffset) % 20) + (y % 20) * Sprite.player.SIZE];
+                        }
+
                     }
                 }
             }
@@ -82,8 +88,8 @@ public class Screen {
     public void renderRocks() {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                                for (Rock r : Level.level1.getRockList()) {
-                                    yOffset = r.getY();
+                for (Rock r : Level.level1.getRockList()) {
+                    yOffset = r.getY();
                     if ((r.getY()) <= y && y < ((r.getY()) + 20) && (r.getX()) <= x && x < ((r.getX()) + 20)) {
                         if (!checkIfPixelEmpty(Sprite.rock, ((x % 20) + ((y - yOffset) % 20) * Sprite.rock.SIZE))) {
 
@@ -138,5 +144,17 @@ public class Screen {
             return true;
         }
         return false;
+    }
+
+    public Font getFont() {
+        try {
+            InputStream in = new FileInputStream("src/font1.ttf");
+            Font font = Font.createFont(Font.TRUETYPE_FONT, in);
+            return font.deriveFont(24f);
+        } catch (Exception e) {
+            System.out.println("ei fonttia " + e);
+        }
+        Font font = new Font("Courier New", Font.BOLD, 18);
+        return font;
     }
 }

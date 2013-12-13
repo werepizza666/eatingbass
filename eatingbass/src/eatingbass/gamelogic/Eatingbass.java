@@ -1,9 +1,7 @@
 package eatingbass.gamelogic;
 
-import eatingbass.gamelogic.Level;
-import eatingbass.gamelogic.Player;
 import eatingbass.ui.Keylistener;
-import eatingbass.ui.Screen;
+import eatingbass.graphics.Screen;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -37,10 +35,9 @@ public class Eatingbass extends Canvas implements Runnable {
         gameRunning = true;
         setPreferredSize(new Dimension(width * scale, height * scale));
         screen = new Screen(width, height);
-        container = new JFrame("Like Eating Bass");
+        container = new JFrame("Eating Bass");
         addKeyListener(keyboard);
         Level.level1.run();
-
 
     }
 //    
@@ -78,6 +75,7 @@ public class Eatingbass extends Canvas implements Runnable {
                 render();
                 Level.level1.updateGame();
                 if (!Level.level1.checkIfGameIsRunning()) {
+                    render();
                     quit();
                     break;
                 }
@@ -98,6 +96,7 @@ public class Eatingbass extends Canvas implements Runnable {
 
     public void quit() {
         this.gameRunning = false;
+        render();
     }
 
     /**
@@ -111,9 +110,13 @@ public class Eatingbass extends Canvas implements Runnable {
             return;
         }
         screen.clear();
-        screen.render();
+        screen.renderWall();
         screen.renderWater();
-        screen.renderPlayer();
+//        if (Level.level1.getFatPlayer()) {
+//            screen.renderSuperPlayer();
+//        } else {
+            screen.renderPlayer();
+//        }
         screen.renderFish();
         screen.renderRocks();
 
@@ -121,8 +124,17 @@ public class Eatingbass extends Canvas implements Runnable {
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = screen.getPixel(i);
         }
+
         Graphics g = strategy.getDrawGraphics();
         g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+        g.setFont(screen.getFont());
+        if (!Level.level1.checkIfGameIsRunning()) {
+            g.drawString("game over", 250, 420);
+        }
+        g.drawString(Level.level1.getScore() + " basses eaten", 180, 320);
+
+
+
         g.dispose();
         strategy.show();
 
