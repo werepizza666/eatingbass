@@ -1,0 +1,1 @@
+Peli käynnistyy .jar-tiedoston avaamisen jälkeen. Pelaaja liikkuu vasemmalle ja oikealle nuolinäppäimistä ja pelaajalla on käytössään "mass destruction"-toiminto painamalla välilyöntiä. Toiminto on kuitenkin käytettävissä vain kerran pelin aikana.

@@ -20,7 +20,7 @@ public class Level {
     private int score;
     private int timeSinceLastFish;
     private int timeSinceLastCastOfRocks;
-    private int timeSinceMassDestruction;
+    private boolean massDestructionUsed = false;
     private boolean superPlayer = false;
     String[] levelTiles = {".........",
         ".........",
@@ -41,7 +41,6 @@ public class Level {
         this.player1 = new Player();
         this.gameRunning = true;
         this.timeSinceLastFish = 0;
-        this.timeSinceMassDestruction = 0;
         this.score = 0;
         newFish();
         this.draw();
@@ -104,11 +103,8 @@ public class Level {
         for (Rock r : rockList) {
             r.fall();
         }
-
-
-        timeSinceMassDestruction++;
         timeSinceLastFish++;
-        if (!this.superPlayer && timeSinceLastFish % 25 == 0 || this.superPlayer && timeSinceLastFish % 25 == 0 || timeSinceMassDestruction == 0) {
+        if (!this.superPlayer && timeSinceLastFish % 25 == 0 || this.superPlayer && timeSinceLastFish % 25 == 0) {
             newFish();
         }
         timeSinceLastCastOfRocks++;
@@ -206,15 +202,17 @@ public class Level {
     }
 
     public void massDestruction() {
-        if (!fishList.isEmpty()) {
-            try {
-                for (Fish f : fishList) {
-                    fishList.remove(f);
-                    this.timeSinceMassDestruction = 0;
-                }
+        if (!massDestructionUsed) {
+            if (!fishList.isEmpty()) {
+                try {
+                    for (Fish f : fishList) {
+                        fishList.remove(f);
+                        massDestructionUsed = true;
+                    }
 
-            } catch (Exception e) {
-                System.out.println("Barf");
+                } catch (Exception e) {
+                    System.out.println("Barf");
+                }
             }
         }
     }
